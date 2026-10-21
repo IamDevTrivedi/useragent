@@ -1,0 +1,58 @@
+name: Feature request
+description: Suggest a new detector, API, or CLI capability
+title: "[feature]: "
+labels:
+  - enhancement
+  - needs-triage
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe the behavior you need, not only the implementation. Parser
+        changes should keep unknown input conservative and include regression
+        tests.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What use case is not covered today?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+      description: What should the parser or API do?
+    validations:
+      required: true
+
+  - type: textarea
+    id: fixtures
+    attributes:
+      label: Representative User-Agent strings
+      description: Sanitize any personal or customer data. Include as many as needed.
+      render: text
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Could a custom rule solve this without a built-in change?
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope
+      options:
+        - label: I searched existing issues and pull requests.
+          required: true
+        - label: I understand this parser is pre-1.0 and the API may change.
+          required: false
+        - label: I am willing to contribute tests or a pull request.
+          required: false

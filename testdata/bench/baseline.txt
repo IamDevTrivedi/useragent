@@ -1,0 +1,21 @@
+goos: linux
+goarch: amd64
+pkg: github.com/IamDevTrivedi/useragent
+cpu: 12th Gen Intel(R) Core(TM) i5-12450HX
+BenchmarkParseDesktop-12            	  655070	      1752 ns/op	       0 B/op	       0 allocs/op
+BenchmarkParseMobile-12             	  252421	      4768 ns/op	     176 B/op	       1 allocs/op
+BenchmarkParseBot-12                	  486435	      2410 ns/op	      80 B/op	       1 allocs/op
+BenchmarkParseParallel-12           	 3619981	       340.8 ns/op	       0 B/op	       0 allocs/op
+BenchmarkParseWithCustomRules-12    	  631603	      1814 ns/op	       0 B/op	       0 allocs/op
+BenchmarkParseMalformed-12          	  658633	      1775 ns/op	      48 B/op	       1 allocs/op
+BenchmarkParseLongInput-12          	   21145	     56714 ns/op	       0 B/op	       0 allocs/op
+BenchmarkTokenizer-12               	 2107231	       576.7 ns/op	       0 B/op	       0 allocs/op
+BenchmarkVersionParse-12            	41464188	        25.78 ns/op	       0 B/op	       0 allocs/op
+BenchmarkParseBrandList-12          	 6173001	       194.4 ns/op	     192 B/op	       2 allocs/op
+BenchmarkApplyClientHints-12        	10113620	       119.9 ns/op	       0 B/op	       0 allocs/op
+goos: linux
+goarch: amd64
+pkg: github.com/IamDevTrivedi/useragent/uahttp
+cpu: 12th Gen Intel(R) Core(TM) i5-12450HX
+BenchmarkParseRequest-12        	  396295	      2899 ns/op	     256 B/op	      10 allocs/op
+BenchmarkParseClientHints-12    	 1364816	       854.8 ns/op	     256 B/op	      10 allocs/op

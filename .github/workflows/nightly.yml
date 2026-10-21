@@ -1,0 +1,121 @@
+name: Nightly
+
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.27.2"
+          cache: true
+
+      - name: Repeated tests
+        run: go test -count=10 ./...
+
+  fuzz:
+    name: fuzz (${{ matrix.target }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: FuzzParse
+            package: .
+            corpus: testdata/fuzz/FuzzParse
+          - target: FuzzTokenizer
+            package: .
+            corpus: testdata/fuzz/FuzzTokenizer
+          - target: FuzzParseVersion
+            package: .
+            corpus: testdata/fuzz/FuzzParseVersion
+          - target: FuzzParseBrandList
+            package: .
+            corpus: testdata/fuzz/FuzzParseBrandList
+          - target: FuzzParseRequest
+            package: ./uahttp
+            corpus: uahttp/testdata/fuzz/FuzzParseRequest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.27.2"
+          cache: true
+
+      - name: Run fuzz target
+        run: go test -run '^$' -fuzz '^${{ matrix.target }}$' -fuzztime 5m -timeout 15m ${{ matrix.package }}
+
+      - name: Upload fuzz corpus on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fuzz-${{ matrix.target }}
+          path: ${{ matrix.corpus }}
+          if-no-files-found: ignore
+          retention-days: 7
+
+  vulnerabilities:
+    name: vulnerabilities
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.27.2"
+          cache: true
+
+      - name: Install govulncheck
+        run: go install golang.org/x/vuln/cmd/govulncheck@latest
+
+      - name: Run govulncheck
+        run: '"$(go env GOPATH)/bin/govulncheck" ./...'
+
+  bench:
+    name: benchmark refresh
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.27.2"
+          cache: true
+
+      - name: Run benchmarks
+        shell: bash
+        run: |
+          go test -run '^$' -bench . -benchmem -count=3 ./... | tee bench.txt
+
+      - name: Upload benchmark refresh
+        uses: actions/upload-artifact@v4
+        with:
+          name: nightly-benchmarks
+          path: bench.txt
+          retention-days: 30

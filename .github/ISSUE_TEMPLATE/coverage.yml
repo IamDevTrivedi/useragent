@@ -1,0 +1,72 @@
+name: Detection coverage
+description: Request support for a browser, OS, device, app, bot, or other client family
+title: "[coverage]: "
+labels:
+  - parser
+  - needs-triage
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for a missing or incorrect detection family. Include real
+        User-Agent samples when possible, with personal or customer data removed.
+
+  - type: input
+    id: family
+    attributes:
+      label: Client family
+      description: Browser, operating system, device, app, bot, TV, or other family.
+      placeholder: Acme Browser on AcmeOS
+    validations:
+      required: true
+
+  - type: textarea
+    id: samples
+    attributes:
+      label: Sample User-Agent strings
+      description: Include one or more complete strings. Mark whether each is real or synthetic.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected fields
+      description: List the expected browser, OS, device, CPU, bot, app, or WebView values.
+      placeholder: |
+        Browser.Name = Acme Browser
+        OS.Name = AcmeOS
+        Device.Type = mobile
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual fields
+      description: Include a JSON dump or the relevant parsed fields.
+      render: text
+    validations:
+      required: false
+
+  - type: input
+    id: reference
+    attributes:
+      label: Public reference
+      description: Link to public documentation, a product page, or a sanitized capture.
+      placeholder: https://example.com/reference
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues and pull requests.
+          required: true
+        - label: The samples are sanitized and do not contain customer data.
+          required: true
+        - label: I identified which samples are real-world and which are synthetic.
+          required: true

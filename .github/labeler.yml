@@ -1,0 +1,45 @@
+parser:
+  - changed-files:
+      - any-glob-to-any-file:
+          - detect_browser.go
+          - detect_os.go
+          - detect_device.go
+          - detect_bot.go
+          - detect_engine.go
+          - detect_cpu.go
+          - detect_app.go
+          - tokenizer.go
+          - tokens.go
+          - rules.go
+          - parser.go
+          - testdata/conformance.json
+
+client-hints:
+  - changed-files:
+      - any-glob-to-any-file:
+          - clienthints.go
+          - uahttp/**
+
+cli:
+  - changed-files:
+      - any-glob-to-any-file:
+          - cmd/ua/**
+
+documentation:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "**/*.md"
+          - docs/**
+
+performance:
+  - changed-files:
+      - any-glob-to-any-file:
+          - bench_test.go
+          - docs/benchmarks.md
+
+dependencies:
+  - changed-files:
+      - any-glob-to-any-file:
+          - go.mod
+          - go.sum
+          - .github/dependabot.yml
