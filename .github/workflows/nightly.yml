@@ -69,7 +69,7 @@ jobs:
 
       - name: Upload fuzz corpus on failure
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: fuzz-${{ matrix.target }}
           path: ${{ matrix.corpus }}
@@ -114,7 +114,7 @@ jobs:
           go test -run '^$' -bench . -benchmem -count=3 ./... | tee bench.txt
 
       - name: Upload benchmark refresh
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: nightly-benchmarks
           path: bench.txt
